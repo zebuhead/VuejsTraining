@@ -131,6 +131,8 @@ https://vuejs.org/v2/guide/syntax.html
 
 This is the javascript that contains the logic for the component. In a .vue file this is a single JSON object that contains all of the properties, data, and methods for the component. Examples at https://vuejs.org/v2/guide/computed.html will give an idea of how to add properties, data, and methods to a component.
 
+Digital Ocean has a good article on component lifecycle https://www.digitalocean.com/community/tutorials/vuejs-component-lifecycle
+
 ### `<style scoped>`
 
 This is the style for this component only. The styles will not carry over to other components.
