@@ -251,8 +251,6 @@ Update the main App.vue template
 
 While the loader component is waiting for the fetch call it will display "Please Wait...". Once the fetch call is complete the component will display the json object.
 
-### BONUS
-
 Add a property to the loader component for the data url.
 
 ```
