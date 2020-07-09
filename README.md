@@ -136,3 +136,163 @@ Digital Ocean has a good article on component lifecycle https://www.digitalocean
 ### `<style scoped>`
 
 This is the style for this component only. The styles will not carry over to other components.
+
+---
+
+## Workshop
+
+### Data Loader
+
+Create a new loader component to your components directory. Use the template below as a starting point for the component. You can name the file and the component whatever you like. Make sure the file has a .vue extention. Component and the files that contain them usually match.
+
+```
+<template>
+
+</template>
+
+<script>
+    export default {
+        name: "ComponentName"
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+Add a "mounted" lifecycle hook to the component. The script section of your component should look something like the code below
+
+```
+<script>
+    export default {
+        name: "ComponentName",
+        mounted() {
+
+        }
+    }
+</script>
+```
+
+Add a javascript fetch call in the the "mounted" lifecycle hook of the component.
+The fetch will get json data from http://gstaging.getuwired.us/engconcepts/jordan/data.php (Make sure you set the fetch mode to "cors").
+
+Create data for the component. The data function always returns an object
+
+```
+<script>
+    export default {
+        name: "ComponentName",
+        mounted() {
+            fetch()...
+        },
+        data() {
+            return{
+                name: "value",
+            }
+        }
+    }
+</script>
+```
+
+Add an element to the data object called "loading" and set it to true. And another element called "data" and set it to null
+
+Update your fetch promise to set this.data to the json object and set this.loading to true
+
+```
+fetch("http://gstaging.getuwired.us/engconcepts/jordan/data.php", {mode: 'cors'})
+                .then(response => response.json())
+                .then(data => {
+                    this.data = data;
+                    this.loading = false;
+                });
+```
+
+Update the template area of your component
+
+```
+<template>
+    <div>
+        <div v-if="loading">
+            Please wait...
+        </div>
+        <div v-else>
+            {{info}}
+        </div>
+
+    </div>
+</template>
+```
+
+Now add your component to the main App.vue script
+
+```
+<script>
+import Loader from './components/Loader';
+
+export default {
+  name: 'App',
+  components: {
+    Loader
+  }
+}
+</script>
+```
+
+Update the main App.vue template
+
+```
+<template>
+  <div id="app">
+    <loader/>
+  </div>
+</template>
+```
+
+While the loader component is waiting for the fetch call it will display "Please Wait...". Once the fetch call is complete the component will display the json object.
+
+### BONUS
+
+Add a property to the loader component for the data url.
+
+```
+<script>
+    export default {
+        name: "ComponentName",
+        mounted() {
+            fetch()...
+        },
+        data() {
+            return{
+                loading: true,
+                data: null
+            }
+        },
+        props: {
+            dataUrl:{
+                required:true
+            },
+        }
+    }
+</script>
+```
+
+Now update the main App.vue template
+
+```
+<template>
+  <div id="app">
+    <loader v-bind:data-url="http://gstaging.getuwired.us/engconcepts/jordan/data.php"></loader>
+  </div>
+</template>
+```
+
+Update the fetch call url to this.dataUrl
+
+```
+fetch(this.dataUrl, {mode:"cors"})...
+```
+
+### Node Component
+
+Use what you learned from creating the loader component to create a node component that will display the firstname, lastname, and role from the json object. Use a v-for loop to display all the workers.
